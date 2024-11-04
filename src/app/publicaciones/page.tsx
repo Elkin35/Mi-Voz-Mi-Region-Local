@@ -109,7 +109,7 @@ export default function Publicaciones() {
 
 function PublicacionCard({ publicacion }: { publicacion: Publicacion }) {
   
-  const imageUrl = publicacion.imagen 
+  const imageUrl = publicacion.imagen
     ? `data:image/jpeg;base64,${publicacion.imagen}`
     : "/default.jpg";
 
@@ -119,10 +119,14 @@ function PublicacionCard({ publicacion }: { publicacion: Publicacion }) {
         <CardTitle>{publicacion.titulo}</CardTitle>
         <p className="text-sm text-muted-foreground">{publicacion.departamento}</p>
       </CardHeader>
-      <img // Usa la etiqueta `img` en lugar de `Image` para Base64
+      <img 
         src={imageUrl}
         alt={`Imagen para ${publicacion.titulo}`}
         className="object-cover w-full h-48"
+        onError={(e) => {
+          e.currentTarget.src = "/default.jpg"; // Reemplaza con imagen default si falla
+          console.log(publicacion.imagen && !publicacion.imagen.endsWith("jpg"));
+        }}
       />
       <CardContent className="flex-grow">
         <p className="text-sm text-gray-600 mb-2">
@@ -146,6 +150,10 @@ function PublicacionCard({ publicacion }: { publicacion: Publicacion }) {
                 src={imageUrl}
                 alt={`Imagen para ${publicacion.titulo}`}
                 className="object-cover w-full h-48 mb-4 rounded-md"
+                onError={(e) => {
+                  e.currentTarget.src = "/default.jpg";
+                  console.log(publicacion.imagen && !publicacion.imagen.endsWith("jpg"));
+                }}
               />
               <p className="text-sm text-gray-600 mb-4">{publicacion.contenido}</p>
               <div className="text-sm">
